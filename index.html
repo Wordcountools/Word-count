@@ -1,213 +1,238 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="hi">
-<head> 
-  <meta name="google-site-verification" content="LYuTUekJRLba2HMjxlw5XWFC8VjCU94cqJ_h-TPTgaY" />
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Enhanced 5000 Word Counter Tool</title>
-<style>
-:root {
-  --text-color:#333;
-  --warn-color:#b91c1c;
-  --bar-gradient:linear-gradient(90deg,#10b981,#06b6d4);
-}
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>Word Count Tools</title>
+  <style>
+    :root {
+      --warn-color: #b91c1c;
+    }
+    body {
+      margin: 0;
+      padding: 15px;
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      color: #333;
+      box-sizing: border-box;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(270deg, #ff0080, #ff8c00, #40e0d0, #8a2be2, #00ff00);
+      background-size: 1500% 1500%;
+      animation: neonBG 5s ease infinite;
+    }
+    @keyframes neonBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
 
-/* Body + animated 5-color background */
-body {
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  min-height:100vh;
-  margin:0;
-  padding:20px;
-  background:linear-gradient(270deg,#ff9a9e,#fad0c4,#a18cd1,#ffecd2,#6a11cb);
-  background-size:1000% 1000%;
-  animation:gradientAnimation 8s ease infinite;
-  font-family:'Segoe UI', Roboto, 'Noto Sans', Arial, sans-serif;
-  color:var(--text-color);
-}
-@keyframes gradientAnimation{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #fff;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    }
+    p {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #fff;
+      font-weight: 500;
+    }
 
-.container{max-width:900px;width:100%;text-align:center;}
-h1{font-size:28px;margin-bottom:10px;color:red;} /* Heading color red */
-p{margin:6px 0 18px 0;}
+    textarea {
+      width: 100%;
+      height: 250px;
+      padding: 15px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 2px solid #2563eb;
+      background: #ffffffdd;
+      box-shadow: 4px 4px 15px rgba(0,0,0,0.3);
+      resize: vertical;
+      display: block;
+      margin: 0 auto 20px auto;
+      box-sizing: border-box;
+    }
 
-/* Terabox */
-textarea{
-  width:90%;max-width:900px;height:350px;padding:15px;font-size:16px;
-  border-radius:12px;border-width:5px;border-style:solid;
-  border-image:linear-gradient(45deg,#ff0000,#0000ff)1;
-  animation:borderAnimation 3s linear infinite;
-  background:linear-gradient(145deg,#ffffff,#e0f7fa);
-  box-shadow:0 8px 25px rgba(0,0,0,0.5);
-  text-align:center;resize:vertical;display:block;margin:0 auto 20px auto;
-  border-bottom-width:5px;
-}
-@keyframes borderAnimation{
-  0%{border-image-source:linear-gradient(45deg,#ff0000,#0000ff);}
-  50%{border-image-source:linear-gradient(45deg,#0000ff,#ff0000);}
-  100%{border-image-source:linear-gradient(45deg,#ff0000,#0000ff);}
-}
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
 
-/* Buttons */
-.row{
-  display:flex;gap:12px;flex-wrap:wrap;margin-top:15px;justify-content:center;
-}
-.btn{
-  padding:12px 18px;border-radius:10px;border:0;color:#fff;font-weight:600;
-  cursor:pointer;transition:all 0.2s ease;
-}
-/* Buttons colors */
-.btn1{background:linear-gradient(45deg,#00c853,#00e676);} /* Count Words green highlight */
-.btn2{background:linear-gradient(45deg,#ff1493,#ff69b4);} /* Clear normal */
-.btn3{background:linear-gradient(45deg,#ff8c00,#ff4500);} /* Paste highlight */
-.btn4{background:linear-gradient(45deg,#800080,#00ff7f);} /* Download normal */
-.btn:hover{transform:scale(1.05);box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+    .btn {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 0;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 120px;
+      flex: 1 1 45%;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .btn:hover {
+      transform: translateY(-3px) scale(1.05);
+    }
+    #countBtn { background: #32cd32; }
+    #clearBtn { background: #ff4500; }
+    #pasteBtn { background: #ffd700; color:#000; }
+    #downloadBtn { background: #ff1493; }
 
-/* Stats cards */
-.stats-container{
-  display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:18px;
-}
-.card{
-  padding:12px 15px;border-radius:12px;min-width:160px;text-align:center;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);color:#fff;
-}
-.card1{background:#ff4500;}
-.card2{background:#1e90ff;}
-.card3{background:#32cd32;}
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .card {
+      background: #ffffffdd;
+      padding: 12px 15px;
+      border-radius: 12px;
+      min-width: 140px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      font-weight: 600;
+    }
+    .progress {
+      height: 15px;
+      background: #e9eefb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #10b981, #06b6d4);
+      transition: width 0.4s ease;
+    }
+    .warn {
+      color: var(--warn-color);
+      font-weight: 700;
+    }
 
-.progress{height:15px;background:#e9eefb;border-radius:999px;overflow:hidden;margin-top:6px;}
-.bar{height:100%;width:0%;background:var(--bar-gradient);transition:width 0.4s ease;}
-.warn{color:var(--warn-color);font-weight:700;}
-footer{margin-top:25px;color:#fff;font-size:14px;text-shadow:0 1px 2px rgba(0,0,0,0.3);}
-</style>
+    footer {
+      margin-top: 25px;
+      text-align: center;
+      font-size: 14px;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 22px; }
+      textarea { height: 200px; font-size: 14px; }
+      .btn { flex: 1 1 100%; }
+      .card { min-width: 120px; padding: 10px; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-<h1>Enhanced 5000 Word Counter Tool</h1>
-<p>Type or paste your text below. This tool counts words, characters, shows reading time and progress toward 5,000 words.</p>  
+  <h1>Word Count Tools</h1>
+  <p>Paste or type your text below. Get word count, characters, reading time & progress toward 5000 words.</p>
 
-<textarea id="input" placeholder="Write or paste your letter here"></textarea>  
+  <textarea id="input" placeholder="Yahan apna text likhein..."></textarea>
 
-<!-- First row: Count Words + Clear -->
-<div class="row">
-  <button class="btn btn1" id="countBtn">Count Words</button>
-  <button class="btn btn2" id="clearBtn">Clear</button>
-</div>  
-
-<!-- Second row: Paste + Download -->
-<div class="row">
-  <button class="btn btn3" id="pasteBtn">Paste (from clipboard)</button>
-  <button class="btn btn4" id="downloadBtn">Download .txt</button>
-</div>  
-
-<div class="stats-container">
-  <div class="card card1 stats">
-    <div><div style="font-size:14px;">Total words</div>
-    <div id="wordCount" style="font-size:22px;font-weight:700">0</div></div>
+  <div class="row">
+    <button class="btn" id="countBtn">Count Words</button>
+    <button class="btn" id="clearBtn">Clear</button>
+    <button class="btn" id="pasteBtn">Paste (from clipboard)</button>
+    <button class="btn" id="downloadBtn">Download .txt</button>
   </div>
-  <div class="card card2 stats">
-    <div><div style="font-size:14px;">Characters</div>
-    <div id="charCount" style="font-size:20px;font-weight:600">0</div></div>
-  </div>
-  <div class="card card3 stats">
-    <div><div style="font-size:14px;">Estimated reading time</div>
-    <div id="readTime" style="font-size:18px;font-weight:600">0 sec</div></div>
-  </div>
-  <div style="flex:1;min-width:240px">
-    <div style="display:flex;justify-content:space-between">
-      <small>Progress toward 5,000 words</small>
-      <small id="remaining">5,000 left</small>
+
+  <div class="stats">
+    <div class="card" style="background:#32cd32;color:#fff;">
+      <div>Total Words</div>
+      <div id="wordCount" style="font-size:20px;">0</div>
     </div>
-    <div class="progress" aria-hidden>
-      <div class="bar" id="bar"></div>
+    <div class="card" style="background:#ff4500;color:#fff;">
+      <div>Characters</div>
+      <div id="charCount" style="font-size:20px;">0</div>
     </div>
-    <div id="note" style="margin-top:6px;color:#444;font-size:13px"></div>
+    <div class="card" style="background:#ffd700;color:#000;">
+      <div>Reading Time</div>
+      <div id="readTime" style="font-size:18px;">0 sec</div>
+    </div>
+    <div class="card" style="flex:1;min-width:220px;background:#ff1493;color:#fff;">
+      <div style="display:flex;justify-content:space-between">
+        <small>Progress (5000)</small>
+        <small id="remaining">5000 left</small>
+      </div>
+      <div class="progress">
+        <div class="bar" id="bar"></div>
+      </div>
+      <div id="note" style="margin-top:6px;font-size:13px"></div>
+    </div>
   </div>
-</div>
 
-<footer>
-<small>Supports Unicode text (Hindi, English, other languages). Shortcut: Ctrl/⌘ + Enter to count.</small>
-</footer>
-</div>
+  <footer>Supports Hindi, English & Unicode text. Shortcut: Ctrl/⌘ + Enter</footer>
 
-<script>
-const WORD_REGEX=/[\p{L}\p{N}]+(?:["'’\-][\p{L}\p{N}]+)*/gu;
-const input=document.getElementById('input');
-const countBtn=document.getElementById('countBtn');
-const pasteBtn=document.getElementById('pasteBtn');
-const clearBtn=document.getElementById('clearBtn');
-const downloadBtn=document.getElementById('downloadBtn');
-const wordCountEl=document.getElementById('wordCount');
-const charCountEl=document.getElementById('charCount');
-const readTimeEl=document.getElementById('readTime');
-const barEl=document.getElementById('bar');
-const remainingEl=document.getElementById('remaining');
-const noteEl=document.getElementById('note');
-const MAX=5000;
+  <script>
+    const input = document.getElementById('input');
+    const wordCountEl = document.getElementById('wordCount');
+    const charCountEl = document.getElementById('charCount');
+    const readTimeEl = document.getElementById('readTime');
+    const barEl = document.getElementById('bar');
+    const remainingEl = document.getElementById('remaining');
+    const noteEl = document.getElementById('note');
+    const MAX = 5000;
 
-function countWords(text){
-  if(!text) return {words:0,chars:0};
-  const chars=text.length;
-  let matches=text.match(WORD_REGEX);
-  const words=matches?matches.length:0;
-  return {words,chars};
-}
+    // Updated regex: English + Hindi
+    const WORD_REGEX = /[\w\u0900-\u097F]+/g;
 
-function updateUI(){
-  const text=input.value||'';
-  const {words,chars}=countWords(text);
-  wordCountEl.textContent=words;
-  charCountEl.textContent=chars;
+    function countWords(text){
+      if(!text) return {words:0,chars:0};
+      const chars = text.length;
+      let matches = text.match(WORD_REGEX);
+      const words = matches ? matches.length : 0;
+      return {words, chars};
+    }
 
-  const minutes=words/200;
-  if(words===0) readTimeEl.textContent='0 sec';
-  else if(minutes<1) readTimeEl.textContent=Math.ceil(minutes*60)+' sec';
-  else readTimeEl.textContent=Math.floor(minutes)+' min '+Math.round((minutes-Math.floor(minutes))*60)+' sec';
+    function updateUI(){
+      const text = input.value || '';
+      const {words, chars} = countWords(text);
+      wordCountEl.textContent = words;
+      charCountEl.textContent = chars;
 
-  const pct=Math.min(100,Math.round((words/MAX)*100));
-  barEl.style.width=pct+'%';
-  remainingEl.textContent=Math.max(0,MAX-words)+' left';
+      const minutes = words / 200;
+      if(words === 0) readTimeEl.textContent = '0 sec';
+      else if(minutes < 1) readTimeEl.textContent = Math.ceil(minutes*60) + ' sec';
+      else readTimeEl.textContent = Math.floor(minutes) + ' min ' + Math.round((minutes-Math.floor(minutes))*60) + ' sec';
 
-  noteEl.innerHTML=words>MAX?'<span class="warn">Aap 5,000 shabdon se zyaada likh chuke hain!</span>':'';
-}
+      const pct = Math.min(100, Math.round((words / MAX) * 100));
+      barEl.style.width = pct + '%';
+      remainingEl.textContent = Math.max(0, MAX - words) + ' left';
 
-input.addEventListener('input',updateUI);
-countBtn.addEventListener('click',()=>{
-  updateUI();
-  countBtn.textContent='Counted ✓';
-  setTimeout(()=>countBtn.textContent='Count Words',900);
-});
-pasteBtn.addEventListener('click',async ()=>{
-  try{
-    const text=await navigator.clipboard.readText();
-    input.value=text;
+      noteEl.innerHTML = words > MAX ? '<span class="warn">⚠ Aap 5000 shabdon se zyaada likh chuke hain!</span>' : '';
+    }
+
+    document.getElementById('countBtn').addEventListener('click', updateUI);
+    document.getElementById('clearBtn').addEventListener('click', ()=>{input.value='';updateUI();});
+    document.getElementById('pasteBtn').addEventListener('click', async ()=>{
+      try{
+        input.value=await navigator.clipboard.readText();
+        updateUI();
+      }catch(e){ alert('Clipboard access denied. Use Ctrl+V.'); }
+    });
+    document.getElementById('downloadBtn').addEventListener('click', ()=>{
+      const blob = new Blob([input.value||''], {type:'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'text.txt';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    });
+    window.addEventListener('keydown', (e)=>{ 
+      if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();updateUI();} 
+    });
     updateUI();
-  }catch(e){alert('Clipboard access denied. Manually paste using Ctrl+V.');}
-});
-clearBtn.addEventListener('click',()=>{
-  input.value='';
-  updateUI();
-});
-downloadBtn.addEventListener('click',()=>{
-  const blob=new Blob([input.value||''],{type:'text/plain;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  a.download='text-for-count.txt';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-});
-window.addEventListener('keydown',(e)=>{
-  if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();countBtn.click();}
-});
-updateUI();
-</script>
+  </script>
 </body>
 </html>
