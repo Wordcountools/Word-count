@@ -1,3 +1,7 @@
 User-agent: *
+Disallow: /search
+Disallow: /category/
+Disallow: /tag/
 Allow: /
 Sitemap: https://wordcountools.github.io/Word-count/sitemap.xml
+Sitemap: https://wordcountools.github.io/Word-count/sitemap-pages.xml
